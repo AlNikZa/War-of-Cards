@@ -1,0 +1,142 @@
+html {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+* {
+  margin: 0;
+  padding-left: 0;
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100vh;
+  background-color: rgba(255, 255, 0, 0.15);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.player {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 35vh;
+}
+
+.player > div {
+  height: 49%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#player1-number-of-cards,
+#player2-number-of-cards {
+  height: 6vh;
+  font-size: 5vh;
+  font-weight: bold;
+  /* background-color: rgba(255, 255, 0, 0.15); */
+  /* border: 1px solid black; */
+  width: min-content;
+  padding: 0 2vh;
+  border-radius: 2vh;
+  margin: 0 auto;
+}
+.player > div > img {
+  position: absolute;
+}
+#table {
+  width: 100vw;
+  height: 30vh;
+}
+#table div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+}
+img {
+  height: 12vh;
+}
+.op2 {
+  opacity: 0.2;
+}
+/* .ml {
+  margin-left: -6.5vh;
+} */
+.redBG {
+  background-color: rgba(255, 0, 0, 0.15);
+}
+.war-redBG {
+  background-color: rgba(255, 0, 0, 0.4);
+}
+.greenBG {
+  background-color: rgba(0, 255, 0, 0.15);
+}
+.war-greenBG {
+  background-color: rgba(0, 255, 0, 0.4);
+}
+.instructions {
+  font-size: 4vh;
+  color: black;
+  position: absolute;
+  padding: 2vh;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#player1-instructions {
+  top: 3vh;
+  /* left:L */
+}
+#player2-instructions {
+  bottom: 3vh;
+  /* left:L */
+}
+
+.blinking-border {
+  border: 0.2vh solid black;
+  border-radius: 3vh;
+}
+
+#card-selection-form {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  align-items: center;
+  font-size: 4vh;
+  color: orange;
+}
+
+#card-selection-form button {
+  font-size: 4vh;
+  padding: 1vh 2vh;
+  background-color: transparent;
+  border: 0.2vh solid orange;
+  border-radius: 3vh;
+  color: orange;
+}
+
+#card-selection-form button:hover,
+input:hover {
+  cursor: pointer;
+  color: white;
+  background-color: orange;
+}
+
+form > div > label:hover {
+  cursor: pointer;
+}
+h2,
+p {
+  color: black;
+}

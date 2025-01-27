@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>War</title>
+    <link rel="stylesheet" href="war.css" />
+    <link rel="shortcut icon" href="favicon.svg" type="image/x-icon" />
+  </head>
+  <body>
+    <div id="game" style="display: none">
+      <div id="player1-instructions" class="instructions">
+        Hit "s" to draw a card
+      </div>
+
+      <div id="player1" class="player">
+        <div id="player1-table-to-deck"></div>
+        <div id="player1-number-of-cards"></div>
+        <div id="player1-deck-to-table"></div>
+      </div>
+
+      <div id="table">
+        <div id="player1-card"></div>
+        <div id="player2-card"></div>
+      </div>
+
+      <div id="player2-instructions" class="instructions">
+        Hit "j" to draw a card
+      </div>
+
+      <div id="player2" class="player">
+        <div id="player2-deck-to-table"></div>
+        <div id="player2-number-of-cards"></div>
+        <div id="player2-table-to-deck"></div>
+      </div>
+    </div>
+
+    <form id="card-selection-form">
+      <h2>Welcome to the War of Cards</h2>
+      <p>The ace is high!</p>
+      <br />
+      <label for="card-count">Select the total number of cards to play:</label>
+      <br />
+
+      <div>
+        <label for="26">26</label>
+        <input type="radio" name="card-count" id="26" value="26" />
+      </div>
+      <div>
+        <label for="52">52</label>
+        <input checked type="radio" name="card-count" id="52" value="52" />
+      </div>
+      <div>
+        <label for="104">104</label>
+        <input type="radio" name="card-count" id="104" value="104" />
+      </div>
+
+      <br />
+      <button type="submit">Start Game</button>
+    </form>
+
+    <script>
+      const cardCountForm = document.getElementById('card-selection-form');
+
+      cardCountForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const selectedNumberOfCards = parseInt(e.target['card-count'].value);
+
+        cardCountForm.style.display = 'none';
+
+        const script = document.createElement('script');
+        script.src = 'war.js';
+
+        // document.body.append(script); maybe here?
+
+        script.onload = function () {
+          createInitialDeck(selectedNumberOfCards);
+          dealCards(selectedNumberOfCards);
+
+          player1.displayTotalNumberOfCards();
+          player2.displayTotalNumberOfCards();
+          player1.spreadDecks();
+          player2.spreadDecks();
+        };
+
+        document.body.append(script);
+
+        document.getElementById('game').style.display = 'block';
+      });
+    </script>
+  </body>
+</html>
