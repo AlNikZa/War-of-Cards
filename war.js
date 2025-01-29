@@ -44,7 +44,8 @@ function createInitialDeck(cardCount) {
   }
 }
 
-const backOfACardSvgSource = './cards/back.svg';
+const randomBack = Math.floor(Math.random() * 10 + 1);
+const backOfACardSvgSource = `./cards/back${randomBack}.svg`;
 
 ////////////////////////////////////////////////////////////////////
 //  _______   __         ______   __      __  ________  _______   //
