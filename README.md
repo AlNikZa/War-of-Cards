@@ -6,7 +6,7 @@ Game Features:
 Two-player mode
 Choose between 26, 52, or 104 cards
 Ace is the strongest card
-"War" happens when cards tie
+"War" happens when cards tie.
 
 How to Play:
 Players draw cards from their decks.
