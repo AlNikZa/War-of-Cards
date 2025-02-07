@@ -59,9 +59,11 @@ const backOfACardSvgSource = `./cards/back${randomBack}.svg`;
 // $$/       $$$$$$$$/ $$/   $$/     $$/     $$$$$$$$/ $$/   $$/  //
 //                                                                //
 ////////////////////////////////////////////////////////////////////
+
 class Player {
   constructor(
     name,
+    username,
     deckToTableCards,
     tableToDeckCards,
     totalCardsCount,
@@ -72,6 +74,7 @@ class Player {
     numberOfCardsContainer
   ) {
     this.name = name;
+    this.username = username;
     this.deckToTableCards = deckToTableCards;
     this.tableToDeckCards = tableToDeckCards;
     this.totalCardsCount = totalCardsCount;
@@ -94,7 +97,7 @@ class Player {
       if (table[`${this.name}Card`]) {
         table[`${this.name}WarCards`].push(table[`${this.name}Card`]);
         if (this.threeCardsInWarCounter < 3 && this.totalCardsCount > 1) {
-          cardToPullImg.classList.add('op2');
+          cardToPullImg.classList.add("op2");
         }
       }
     }
@@ -104,8 +107,8 @@ class Player {
 
   collectCardsFromTable = function () {
     table.removeBackgroundColors();
-    document.querySelector(`#${this.name}-instructions`).innerText = '';
-    document.querySelector(`#${this.name}-instructions`).style.display = 'none';
+    document.querySelector(`#${this.name}-instructions`).innerText = "";
+    document.querySelector(`#${this.name}-instructions`).style.display = "none";
 
     this.tableToDeckCards.push(
       table.player1Card,
@@ -116,20 +119,20 @@ class Player {
 
     // visual part of taking cards
 
-    const cardsToTake = document.querySelectorAll('#table img');
+    const cardsToTake = document.querySelectorAll("#table img");
     for (let cardToTake of cardsToTake) {
-      cardToTake.classList.remove('op2');
+      cardToTake.classList.remove("op2");
       cardToTake.src = backOfACardSvgSource;
       this.tableToDeckContainer.append(cardToTake);
     }
 
     //resetting table
 
-    table.player1Card = '';
-    table.player2Card = '';
+    table.player1Card = "";
+    table.player2Card = "";
     table.player1WarCards = [];
     table.player2WarCards = [];
-    table.roundWinner = '';
+    table.roundWinner = "";
 
     player1.threeCardsInWarCounter = 0;
     player2.threeCardsInWarCounter = 0;
@@ -137,15 +140,20 @@ class Player {
   };
 
   refillDeckToTableCards = function () {
-    const shuffledDeck = [];
-    while (this.tableToDeckCards.length > 0) {
-      const randomIndex = Math.floor(
-        Math.random() * this.tableToDeckCards.length
-      );
-      shuffledDeck.push(this.tableToDeckCards.splice(randomIndex, 1)[0]);
-    }
+    if (this.totalCardsCount >= 10) {
+      const shuffledDeck = [];
+      while (this.tableToDeckCards.length > 0) {
+        const randomIndex = Math.floor(
+          Math.random() * this.tableToDeckCards.length
+        );
+        shuffledDeck.push(this.tableToDeckCards.splice(randomIndex, 1)[0]);
+      }
 
-    this.deckToTableCards.push(...shuffledDeck);
+      this.deckToTableCards.push(...shuffledDeck);
+    } else {
+      this.deckToTableCards.push(...this.tableToDeckCards);
+      this.tableToDeckCards = [];
+    }
 
     const imagesOfCardsToRefill = document.querySelectorAll(
       `#${this.name}-table-to-deck img`
@@ -157,18 +165,20 @@ class Player {
   };
 
   displayTotalNumberOfCards() {
-    this.numberOfCardsContainer.innerText = '';
-    this.numberOfCardsContainer.append(this.totalCardsCount);
+    this.numberOfCardsContainer.innerText = "";
+    this.numberOfCardsContainer.append(
+      `${this.username}:${this.totalCardsCount}`
+    );
 
     if (player1.totalCardsCount > player2.totalCardsCount) {
-      player1.numberOfCardsContainer.style.color = 'mediumseagreen';
-      player2.numberOfCardsContainer.style.color = 'crimson';
+      player1.numberOfCardsContainer.style.color = "mediumseagreen";
+      player2.numberOfCardsContainer.style.color = "crimson";
     } else if (player1.totalCardsCount < player2.totalCardsCount) {
-      player1.numberOfCardsContainer.style.color = 'crimson';
-      player2.numberOfCardsContainer.style.color = 'mediumseagreen';
+      player1.numberOfCardsContainer.style.color = "crimson";
+      player2.numberOfCardsContainer.style.color = "mediumseagreen";
     } else if (player1.totalCardsCount === player2.totalCardsCount) {
-      player1.numberOfCardsContainer.style.color = 'orange';
-      player2.numberOfCardsContainer.style.color = 'orange';
+      player1.numberOfCardsContainer.style.color = "orange";
+      player2.numberOfCardsContainer.style.color = "orange";
     }
   }
 
@@ -198,27 +208,29 @@ class Player {
 }
 
 const player1 = new Player(
-  'player1',
+  "player1",
+  p1username.value,
   [],
   [],
   0,
   0,
-  document.querySelector('#player1'),
-  document.querySelector('#player1-deck-to-table'),
-  document.querySelector('#player1-table-to-deck'),
-  document.querySelector('#player1-number-of-cards')
+  document.querySelector("#player1"),
+  document.querySelector("#player1-deck-to-table"),
+  document.querySelector("#player1-table-to-deck"),
+  document.querySelector("#player1-number-of-cards")
 );
 
 const player2 = new Player(
-  'player2',
+  "player2",
+  p2username.value,
   [],
   [],
   0,
   0,
-  document.querySelector('#player2'),
-  document.querySelector('#player2-deck-to-table'),
-  document.querySelector('#player2-table-to-deck'),
-  document.querySelector('#player2-number-of-cards')
+  document.querySelector("#player2"),
+  document.querySelector("#player2-deck-to-table"),
+  document.querySelector("#player2-table-to-deck"),
+  document.querySelector("#player2-number-of-cards")
 );
 
 //////////////////////////////////////////
@@ -231,7 +243,7 @@ function dealCards(cardCount) {
   for (let i = 0; i < cardCount; i++) {
     const randomCardIndex = Math.floor(Math.random() * initialCardDeck.length);
 
-    const newCard = document.createElement('img');
+    const newCard = document.createElement("img");
     newCard.src = backOfACardSvgSource;
     if (i % 2 === 0) {
       player1.deckToTableContainer.append(newCard);
@@ -265,10 +277,10 @@ let player1NumberOfWins = 0;
 let player2NumberOfWins = 0;
 
 const table = {
-  player1CardContainer: document.querySelector('#player1-card'),
-  player2CardContainer: document.querySelector('#player2-card'),
-  player1Card: '',
-  player2Card: '',
+  player1CardContainer: document.querySelector("#player1-card"),
+  player2CardContainer: document.querySelector("#player2-card"),
+  player1Card: "",
+  player2Card: "",
   player1WarCards: [],
   player2WarCards: [],
   roundWinner: null,
@@ -309,9 +321,9 @@ const table = {
           player1NumberOfWins === 1 &&
           this.player1WarCards.length === this.player2WarCards.length
         ) {
-          document.querySelector('#player1-instructions').style.display =
-            'flex';
-          document.querySelector('#player1-instructions').innerText =
+          document.querySelector("#player1-instructions").style.display =
+            "flex";
+          document.querySelector("#player1-instructions").innerText =
             'Hit "a" to collect the cards';
         }
         this.addBackgroundColors(player1, player2);
@@ -344,9 +356,9 @@ const table = {
           player2NumberOfWins === 1 &&
           this.player1WarCards.length === this.player2WarCards.length
         ) {
-          document.querySelector('#player2-instructions').style.display =
-            'flex';
-          document.querySelector('#player2-instructions').innerText =
+          document.querySelector("#player2-instructions").style.display =
+            "flex";
+          document.querySelector("#player2-instructions").innerText =
             'Hit "k" to collect the cards';
         }
 
@@ -362,22 +374,22 @@ const table = {
 
   addBackgroundColors: function (winner, opponent) {
     if (!isWar) {
-      winner.playerContainer.classList.add('greenBG');
-      opponent.playerContainer.classList.add('redBG');
+      winner.playerContainer.classList.add("greenBG");
+      opponent.playerContainer.classList.add("redBG");
 
-      table[`${winner.name}CardContainer`].classList.add('greenBG');
-      table[`${opponent.name}CardContainer`].classList.add('redBG');
+      table[`${winner.name}CardContainer`].classList.add("greenBG");
+      table[`${opponent.name}CardContainer`].classList.add("redBG");
     } else if (isWar && this.roundWinner) {
-      winner.playerContainer.classList.add('war-greenBG');
-      opponent.playerContainer.classList.add('war-redBG');
+      winner.playerContainer.classList.add("war-greenBG");
+      opponent.playerContainer.classList.add("war-redBG");
 
-      table[`${winner.name}CardContainer`].classList.add('war-greenBG');
-      table[`${opponent.name}CardContainer`].classList.add('war-redBG');
+      table[`${winner.name}CardContainer`].classList.add("war-greenBG");
+      table[`${opponent.name}CardContainer`].classList.add("war-redBG");
     }
   },
 
   removeBackgroundColors: function () {
-    document.body.style.backgroundImage = 'none';
+    document.body.style.backgroundImage = "none";
 
     const containers = [
       player1.playerContainer,
@@ -387,10 +399,10 @@ const table = {
     ];
 
     for (let container of containers) {
-      container.classList.remove('greenBG');
-      container.classList.remove('redBG');
-      container.classList.remove('war-greenBG');
-      container.classList.remove('war-redBG');
+      container.classList.remove("greenBG");
+      container.classList.remove("redBG");
+      container.classList.remove("war-greenBG");
+      container.classList.remove("war-redBG");
     }
   },
 };
@@ -414,13 +426,13 @@ let player2Played = false;
 
 let isWar = false;
 
-window.addEventListener('keydown', function (evt) {
+window.addEventListener("keydown", function (evt) {
   // war logic
 
   if (isWar) {
     // drawing cards in war
     if (
-      evt.code === 'KeyS' &&
+      evt.code === "KeyS" &&
       table.player1Card.cardGameValue === table.player2Card.cardGameValue &&
       player2.totalCardsCount === 0 &&
       player1.threeCardsInWarCounter === 4
@@ -428,7 +440,7 @@ window.addEventListener('keydown', function (evt) {
       player1.threeCardsInWarCounter = 0;
     }
     if (
-      evt.code === 'KeyS' &&
+      evt.code === "KeyS" &&
       !table.roundWinner &&
       player1.threeCardsInWarCounter !== 4
     ) {
@@ -449,7 +461,7 @@ window.addEventListener('keydown', function (evt) {
     }
 
     if (
-      evt.code === 'KeyJ' &&
+      evt.code === "KeyJ" &&
       table.player1Card.cardGameValue === table.player2Card.cardGameValue &&
       player1.totalCardsCount === 0 &&
       player2.threeCardsInWarCounter === 4
@@ -457,7 +469,7 @@ window.addEventListener('keydown', function (evt) {
       player2.threeCardsInWarCounter = 0;
     }
     if (
-      evt.code === 'KeyJ' &&
+      evt.code === "KeyJ" &&
       !table.roundWinner &&
       player2.threeCardsInWarCounter !== 4
     ) {
@@ -504,18 +516,28 @@ window.addEventListener('keydown', function (evt) {
   if (player1Played && player2Played) {
     roundWinnerTookTheCards = false;
   }
-  if (!player1Played && roundWinnerTookTheCards && evt.code === 'KeyS') {
-    document.querySelector('#player1-instructions').innerText = '';
-    document.querySelector(`#player1-instructions`).style.display = 'none';
+  if (
+    player1.totalCardsCount > 0 &&
+    !player1Played &&
+    roundWinnerTookTheCards &&
+    evt.code === "KeyS"
+  ) {
+    document.querySelector("#player1-instructions").innerText = "";
+    document.querySelector(`#player1-instructions`).style.display = "none";
 
     player1.drawCard();
     player1Played = true;
     table.comparePlayersCardsStrength();
   }
 
-  if (!player2Played && roundWinnerTookTheCards && evt.code === 'KeyJ') {
-    document.querySelector('#player2-instructions').innerText = '';
-    document.querySelector(`#player2-instructions`).style.display = 'none';
+  if (
+    player2.totalCardsCount > 0 &&
+    !player2Played &&
+    roundWinnerTookTheCards &&
+    evt.code === "KeyJ"
+  ) {
+    document.querySelector("#player2-instructions").innerText = "";
+    document.querySelector(`#player2-instructions`).style.display = "none";
     player2.drawCard();
     player2Played = true;
     table.comparePlayersCardsStrength();
@@ -525,7 +547,7 @@ window.addEventListener('keydown', function (evt) {
 
   if (
     table.roundWinner === player1 &&
-    evt.code === 'KeyA' &&
+    evt.code === "KeyA" &&
     !roundWinnerTookTheCards
   ) {
     table.roundWinner.collectCardsFromTable();
@@ -534,7 +556,7 @@ window.addEventListener('keydown', function (evt) {
     player2Played = false;
   } else if (
     table.roundWinner === player2 &&
-    evt.code === 'KeyK' &&
+    evt.code === "KeyK" &&
     !roundWinnerTookTheCards
   ) {
     table.roundWinner.collectCardsFromTable();
@@ -550,12 +572,12 @@ window.addEventListener('keydown', function (evt) {
   player2.totalCardsCount =
     player2.deckToTableCards.length + player2.tableToDeckCards.length;
 
-  if (evt.code === 'KeyS' || evt.code === 'KeyA') {
+  if (evt.code === "KeyS" || evt.code === "KeyA") {
     player1.displayTotalNumberOfCards();
     player1.spreadDecks();
   }
 
-  if (evt.code === 'KeyJ' || evt.code === 'KeyK') {
+  if (evt.code === "KeyJ" || evt.code === "KeyK") {
     player2.displayTotalNumberOfCards();
     player2.spreadDecks();
   }
@@ -566,7 +588,7 @@ window.addEventListener('keydown', function (evt) {
     setTimeout(() => {
       document.body.innerHTML =
         '<h1>player 1 win the game press "n" for a new game</h1>';
-      if (evt.code === 'KeyN') {
+      if (evt.code === "KeyN") {
         location.reload();
       }
     }, 100);
@@ -574,7 +596,7 @@ window.addEventListener('keydown', function (evt) {
     setTimeout(() => {
       document.body.innerHTML =
         '<h1>player 2 win the game press "n" for a new game</h1>';
-      if (evt.code === 'KeyN') {
+      if (evt.code === "KeyN") {
         location.reload();
       }
     }, 100);
@@ -583,10 +605,10 @@ window.addEventListener('keydown', function (evt) {
 
 const blinkingBorder = setInterval(() => {
   document
-    .querySelector('#player1-instructions')
-    .classList.toggle('blinking-border');
+    .querySelector("#player1-instructions")
+    .classList.toggle("blinking-border");
 
   document
-    .querySelector('#player2-instructions')
-    .classList.toggle('blinking-border');
+    .querySelector("#player2-instructions")
+    .classList.toggle("blinking-border");
 }, 800);

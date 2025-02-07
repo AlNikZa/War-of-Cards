@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>War of Cards</title>
+    <title>War</title>
     <link rel="stylesheet" href="war.css" />
     <link rel="shortcut icon" href="favicon.svg" type="image/x-icon" />
   </head>
@@ -39,7 +39,25 @@
       <h2>Welcome to the War of Cards</h2>
       <p>The ace is high!</p>
       <br />
+
+      <label for="p1username">First player name: </label>
+      <input
+        type="text"
+        id="p1username"
+        required
+        maxlength="15"
+        name="plusername"
+      />
+      <label for="p2username">Secund player name: </label>
+      <input
+        type="text"
+        id="p2username"
+        required
+        maxlength="15"
+        name="p2username"
+      />
       <label for="card-count">Select the total number of cards to play:</label>
+
       <br />
 
       <div>
@@ -60,18 +78,21 @@
     </form>
 
     <script>
-      const cardCountForm = document.getElementById('card-selection-form');
+      const cardCountForm = document.getElementById("card-selection-form");
 
-      cardCountForm.addEventListener('submit', e => {
+      cardCountForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        const selectedNumberOfCards = parseInt(e.target['card-count'].value);
+        const selectedNumberOfCards = parseInt(e.target["card-count"].value);
 
-        cardCountForm.style.display = 'none';
+        cardCountForm.style.display = "none";
 
-        const script = document.createElement('script');
-        script.src = 'war.js';
+        const script = document.createElement("script");
+        script.src = "war.js";
 
         // document.body.append(script); maybe here?
+
+        const p1username = e.target["p1username"].value;
+        const p2username = e.target["p2username"].value;
 
         script.onload = function () {
           createInitialDeck(selectedNumberOfCards);
@@ -85,7 +106,7 @@
 
         document.body.append(script);
 
-        document.getElementById('game').style.display = 'block';
+        document.getElementById("game").style.display = "block";
       });
     </script>
   </body>
