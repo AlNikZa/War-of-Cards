@@ -586,16 +586,14 @@ window.addEventListener("keydown", function (evt) {
 
   if (player1.totalCardsCount === allCardsCount) {
     setTimeout(() => {
-      document.body.innerHTML =
-        '<h1>player 1 win the game press "n" for a new game</h1>';
+      document.body.innerHTML = `<h1>${player1.username} win the game press "n" for a new game</h1>`;
       if (evt.code === "KeyN") {
         location.reload();
       }
     }, 100);
   } else if (player2.totalCardsCount === allCardsCount) {
     setTimeout(() => {
-      document.body.innerHTML =
-        '<h1>player 2 win the game press "n" for a new game</h1>';
+      document.body.innerHTML = `<h1>${player2.username} win the game press "n" for a new game</h1>`;
       if (evt.code === "KeyN") {
         location.reload();
       }
